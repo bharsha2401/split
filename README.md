@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Trip Expense Splitter
 
 ## Overview
@@ -64,3 +65,6 @@ Contributions are welcome! Please open an issue or submit a pull request for any
 
 ## License
 This project is licensed under the MIT License.
+=======
+# trip
+>>>>>>> 637cc79ce54532aafe54cff1e3cbd8511a8b8738
