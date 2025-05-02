@@ -20,8 +20,17 @@ function App() {
 
     const loadTrip = async (tripId) => {
         try {
-            const response = await api.get(`/trips/${tripId}`);
-            setTrip(response.data);
+            // Fetch trip data
+            const tripResponse = await api.get(`/trips/${tripId}`);
+            if (tripResponse.data) {
+                setTrip(tripResponse.data);
+                
+                // Fetch expenses
+                const expensesResponse = await api.get(`/expenses/trip/${tripId}`);
+                if (expensesResponse.data) {
+                    setExpenses(expensesResponse.data);
+                }
+            }
         } catch (error) {
             console.error('Error loading trip:', error);
             localStorage.removeItem('currentTripId');

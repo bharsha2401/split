@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import api from '../api';
 
-const JoinTrip = ({ setTrip }) => {
+const JoinTrip = ({ setTrip, setExpenses }) => {
     const [shareCode, setShareCode] = useState('');
     const [error, setError] = useState('');
 
@@ -10,13 +10,24 @@ const JoinTrip = ({ setTrip }) => {
         setError('');
 
         try {
+            // Get trip details using share code
             const response = await api.get(`/trips/join/${shareCode}`);
             if (response.data.trip) {
-                setTrip(response.data.trip);
-                localStorage.setItem('currentTripId', response.data.trip._id);
+                const tripData = response.data.trip;
+                
+                // Store trip data
+                setTrip(tripData);
+                localStorage.setItem('currentTripId', tripData._id);
                 localStorage.setItem('shareCode', shareCode);
+
+                // Fetch all expenses for this trip
+                const expensesResponse = await api.get(`/expenses/trip/${tripData._id}`);
+                if (expensesResponse.data) {
+                    setExpenses(expensesResponse.data);
+                }
             }
         } catch (error) {
+            console.error('Error joining trip:', error);
             setError('Invalid share code or trip not found');
         }
     };
